@@ -1,0 +1,38 @@
+[
+  {
+    "id": "GMP-001",
+    "title": "WHO Good Manufacturing Practices for Sterile Products (Annex 1) - Summary",
+    "country": "WHO",
+    "agency": "WHO",
+    "category": "GMP",
+    "description": "Summary of WHO Annex 1 relevant to sterile product manufacture and aseptic processing.",
+    "year": "2020",
+    "pdf": "pdfs/who-annex1.pdf",
+    "external": "https://www.who.int/",
+    "keywords": ["Annex 1", "sterile", "aseptic"]
+  },
+  {
+    "id": "FDA-ANNEX1",
+    "title": "FDA Guidance on Aseptic Processing - Annex Summary",
+    "country": "USA",
+    "agency": "FDA",
+    "category": "Aseptic Processing",
+    "description": "Key FDA expectations for aseptic processing applicable to advanced therapies.",
+    "year": "2023",
+    "pdf": "pdfs/fda-aseptic.pdf",
+    "external": "https://www.fda.gov/",
+    "keywords": ["FDA", "aseptic", "sterility"]
+  },
+  {
+    "id": "CDSCO-CGT-01",
+    "title": "CDSCO Cell Therapy GMP Considerations",
+    "country": "India",
+    "agency": "CDSCO",
+    "category": "Cell and Gene Therapy",
+    "description": "Guidance notes for cell therapy manufacturing and quality considerations.",
+    "year": "2022",
+    "pdf": "",
+    "external": "https://cdsco.gov.in/",
+    "keywords": ["CDSCO", "cell therapy", "CGT"]
+  }
+]

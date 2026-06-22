@@ -1,0 +1,26 @@
+[
+  {
+    "flag": "🇺🇸",
+    "name": "United States",
+    "agencies": ["FDA"],
+    "guidelineCount": 120,
+    "cgtGuidelines": 12,
+    "page": "agencies/fda.html"
+  },
+  {
+    "flag": "🇪🇺",
+    "name": "European Union",
+    "agencies": ["EMA"],
+    "guidelineCount": 95,
+    "cgtGuidelines": 9,
+    "page": "agencies/ema.html"
+  },
+  {
+    "flag": "🇮🇳",
+    "name": "India",
+    "agencies": ["CDSCO"],
+    "guidelineCount": 48,
+    "cgtGuidelines": 6,
+    "page": "agencies/cdsco.html"
+  }
+]

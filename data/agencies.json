@@ -1,0 +1,26 @@
+[
+  {
+    "name": "FDA",
+    "fullName": "U.S. Food and Drug Administration",
+    "country": "United States",
+    "flag": "🇺🇸",
+    "description": "Federal agency responsible for protecting public health by ensuring the safety and efficacy of drugs and biologics.",
+    "page": "agencies/fda.html"
+  },
+  {
+    "name": "EMA",
+    "fullName": "European Medicines Agency",
+    "country": "European Union",
+    "flag": "🇪🇺",
+    "description": "Regulatory body responsible for the evaluation and supervision of medicinal products in the EU.",
+    "page": "agencies/ema.html"
+  },
+  {
+    "name": "CDSCO",
+    "fullName": "Central Drugs Standard Control Organization",
+    "country": "India",
+    "flag": "🇮🇳",
+    "description": "National regulatory authority for pharmaceuticals and medical devices in India.",
+    "page": "agencies/cdsco.html"
+  }
+]
