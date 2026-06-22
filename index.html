@@ -55,19 +55,16 @@
 
     <div class="hero-content">
 
-      <!-- Eyebrow -->
-      <div class="hero-eyebrow">GMP · CGT · ATMP · Regulatory Intelligence</div>
-
       <!-- Main title -->
       <h1 class="hero-title">
-        Global <span class="accent-word">GMP</span> Intelligence<br>Platform
+        Cell & Gene Therapy <br>GMP Platform
       </h1>
 
       <!-- Subtitle -->
       <p class="hero-subtitle">
         Search, explore and compare Good Manufacturing Practice guidelines
-        from regulatory agencies worldwide. Built for GMP professionals,
-        CGT researchers and compliance teams.
+        from regulatory agencies worldwide. Built for CGT GMP professionals
+        and researchers.
       </p>
 
       <!-- Key stats -->
@@ -229,17 +226,43 @@
       <div class="section-header">
         <div>
           <div class="section-label">Complete Library</div>
-          <h2 class="section-title">All Guidelines</h2>
+          <h2 class="section-title">CGT Guidelines</h2>
         </div>
       </div>
       <div class="section-divider"></div>
 
       <!-- Filter row -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
-        <button class="btn btn-secondary" onclick="filterGuidelines('all')">All</button>
-        <button class="btn btn-secondary" onclick="filterGuidelines('GMP')">GMP</button>
-        <button class="btn btn-amber" onclick="filterGuidelines('Cell and Gene Therapy')">Cell &amp; Gene Therapy</button>
-        <button class="btn btn-secondary" onclick="filterGuidelines('Aseptic Processing')">Aseptic Processing</button>
+      <div class="guideline-filter-panel">
+        <div class="guideline-filters">
+          <button class="btn btn-secondary is-active" data-filter="all" aria-pressed="true" onclick="filterGuidelines('all')">All</button>
+          <button class="btn btn-secondary" data-filter="GMP" aria-pressed="false" onclick="filterGuidelines('GMP')">GMP</button>
+          <button class="btn btn-secondary" data-filter="Cell and Gene Therapy" aria-pressed="false" onclick="filterGuidelines('Cell and Gene Therapy')">Cell &amp; Gene Therapy</button>
+          <button class="btn btn-secondary" data-filter="Aseptic Processing" aria-pressed="false" onclick="filterGuidelines('Aseptic Processing')">Aseptic Processing</button>
+        </div>
+        <label class="filter-search-label" for="guideline-search">
+          Search
+          <input
+            id="guideline-search"
+            class="filter-search"
+            type="search"
+            placeholder="Search guidelines..."
+            oninput="filterGuidelineSearch()"
+          >
+        </label>
+        <div class="guideline-dropdowns">
+          <label class="filter-select-label" for="country-filter">
+            Country
+            <select id="country-filter" class="filter-select" onchange="filterGuidelineDropdowns()">
+              <option value="all">All countries</option>
+            </select>
+          </label>
+          <label class="filter-select-label" for="agency-filter">
+            Agency
+            <select id="agency-filter" class="filter-select" onchange="filterGuidelineDropdowns()">
+              <option value="all">All agencies</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <!-- Guidelines list — built by buildGuidelinesList() below -->
@@ -353,6 +376,39 @@
     In a larger project, this would move to script.js once data loading is async-refactored.
   -->
   <script>
+    const guidelineFilters = {
+      category: 'all',
+      country: 'all',
+      agency: 'all',
+      search: ''
+    };
+
+    function getUniqueGuidelineValues(field) {
+      return Array.from(new Set(guidelinesData.map(function (item) {
+        return item[field];
+      }).filter(Boolean))).sort();
+    }
+
+    function populateGuidelineDropdowns() {
+      const countrySelect = document.getElementById('country-filter');
+      const agencySelect = document.getElementById('agency-filter');
+      if (!countrySelect || !agencySelect) return;
+
+      getUniqueGuidelineValues('country').forEach(function (country) {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+
+      getUniqueGuidelineValues('agency').forEach(function (agency) {
+        const option = document.createElement('option');
+        option.value = agency;
+        option.textContent = agency;
+        agencySelect.appendChild(option);
+      });
+    }
+
     /**
      * Builds the complete guidelines list in the #guidelines-list section.
      * Called after guidelinesData is populated by loadAllData().
@@ -367,12 +423,34 @@
         return;
       }
 
-      // Filter the data
-      const items = filter && filter !== 'all'
-        ? guidelinesData.filter(function (g) { return g.category === filter; })
-        : guidelinesData;
+      const activeFilters = Object.assign({}, guidelineFilters, {
+        category: filter || guidelineFilters.category
+      });
+
+      const items = guidelinesData.filter(function (g) {
+        const categoryMatch = activeFilters.category === 'all' || g.category === activeFilters.category;
+        const countryMatch = activeFilters.country === 'all' || g.country === activeFilters.country;
+        const agencyMatch = activeFilters.agency === 'all' || g.agency === activeFilters.agency;
+        const searchableText = [
+          g.id,
+          g.title,
+          g.description,
+          g.country,
+          g.agency,
+          g.category,
+          g.year,
+          Array.isArray(g.keywords) ? g.keywords.join(' ') : ''
+        ].join(' ').toLowerCase();
+        const searchMatch = !activeFilters.search || searchableText.includes(activeFilters.search);
+        return categoryMatch && countryMatch && agencyMatch && searchMatch;
+      });
 
       list.innerHTML = '';
+
+      if (items.length === 0) {
+        list.innerHTML = '<div style="color:var(--color-text-muted);font-size:13px;padding:16px;">No guidelines match the selected filters.</div>';
+        return;
+      }
 
       items.forEach(function (item) {
         const card = document.createElement('div');
@@ -412,13 +490,39 @@
      * Filter button handler — called by onclick on the filter buttons.
      */
     function filterGuidelines(category) {
+      guidelineFilters.category = category;
+
+      document.querySelectorAll('.guideline-filters .btn').forEach(function (button) {
+        const isActive = button.dataset.filter === category;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
       buildGuidelinesList(category);
+    }
+
+    function filterGuidelineDropdowns() {
+      const countrySelect = document.getElementById('country-filter');
+      const agencySelect = document.getElementById('agency-filter');
+
+      guidelineFilters.country = countrySelect ? countrySelect.value : 'all';
+      guidelineFilters.agency = agencySelect ? agencySelect.value : 'all';
+
+      buildGuidelinesList(guidelineFilters.category);
+    }
+
+    function filterGuidelineSearch() {
+      const searchInput = document.getElementById('guideline-search');
+      guidelineFilters.search = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      buildGuidelinesList(guidelineFilters.category);
     }
 
     // Build the list once data is ready
     // We poll until guidelinesData is available
     function waitAndBuild() {
       if (typeof guidelinesData !== 'undefined' && guidelinesData.length > 0) {
+        populateGuidelineDropdowns();
         buildGuidelinesList('all');
       } else {
         setTimeout(waitAndBuild, 200);

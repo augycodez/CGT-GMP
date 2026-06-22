@@ -193,8 +193,11 @@ body.light-mode .navbar {
 }
 
 /* CGT and AI links get special treatment */
-.nav-links .nav-cgt a { color: var(--color-amber); }
-.nav-links .nav-cgt a:hover { background: rgba(232, 168, 50, 0.12); }
+.nav-links .nav-cgt a:hover,
+.nav-links .nav-cgt a.active {
+  color: var(--color-amber);
+  background: rgba(232, 168, 50, 0.12);
+}
 
 .nav-links .nav-ai a { color: var(--color-accent); }
 
@@ -957,6 +960,67 @@ body.light-mode .theme-toggle-knob {
   flex-wrap: wrap;
 }
 
+.guideline-filter-panel {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+.guideline-filters,
+.guideline-dropdowns {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.filter-search-label,
+.filter-select-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.filter-search,
+.filter-select {
+  min-width: 160px;
+  height: 34px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-search {
+  min-width: 240px;
+  cursor: text;
+}
+
+.filter-search::placeholder {
+  color: var(--color-text-muted);
+}
+
+.filter-search:hover,
+.filter-search:focus,
+.filter-select:hover,
+.filter-select:focus {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
 /* ── 11. BUTTONS ─────────────────────────────────────────────── */
 
 .btn {
@@ -997,6 +1061,12 @@ body.light-mode .theme-toggle-knob {
   color: var(--color-text-primary);
   border-color: var(--color-text-muted);
   background: var(--color-surface-2);
+}
+
+.btn-secondary.is-active {
+  background: var(--color-accent);
+  color: #0B1628;
+  border-color: var(--color-accent);
 }
 
 .btn-amber {
@@ -1329,6 +1399,11 @@ body.light-mode .theme-toggle-knob {
   .hero-stats { flex-direction: column; gap: var(--space-4); }
   .countries-grid { grid-template-columns: 1fr 1fr; }
   .cgt-grid { grid-template-columns: repeat(3, 1fr); }
+  .guideline-dropdowns,
+  .filter-search-label,
+  .filter-search,
+  .filter-select-label,
+  .filter-select { width: 100%; }
   .footer-inner { grid-template-columns: 1fr; }
 }
 

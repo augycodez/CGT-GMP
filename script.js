@@ -451,11 +451,19 @@ function buildCGTCards() {
  */
 function setActiveNavLink() {
   const currentPath = window.location.pathname;
+  const currentHash = window.location.hash;
   const links = document.querySelectorAll('.nav-links a');
 
   links.forEach(function (link) {
     const linkPath = new URL(link.href, window.location.href).pathname;
-    if (currentPath === linkPath || currentPath.endsWith(linkPath)) {
+    const linkHash = new URL(link.href, window.location.href).hash;
+    const isSamePath = currentPath === linkPath || currentPath.endsWith(linkPath);
+
+    link.classList.remove('active');
+
+    if (isSamePath && linkHash && currentHash === linkHash) {
+      link.classList.add('active');
+    } else if (isSamePath && !linkHash && !currentHash) {
       link.classList.add('active');
     }
   });
@@ -492,6 +500,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setActiveNavLink();
   initSearch();
   initSearchChips();
+  window.addEventListener('hashchange', setActiveNavLink);
 
   // Load JSON data and build dynamic sections
   loadAllData();
