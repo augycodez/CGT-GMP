@@ -70,22 +70,22 @@
       <!-- Key stats -->
       <div class="hero-stats">
         <div class="hero-stat">
-          <span class="hero-stat-number">16+</span>
+          <span id="hero-countries-count" class="hero-stat-number">16+</span>
           <span class="hero-stat-label">Countries</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
-          <span class="hero-stat-number">15+</span>
+          <span id="hero-agencies-count" class="hero-stat-number">15+</span>
           <span class="hero-stat-label">Agencies</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
-          <span class="hero-stat-number">500+</span>
+          <span id="hero-guidelines-count" class="hero-stat-number">500+</span>
           <span class="hero-stat-label">Guidelines</span>
         </div>
         <div class="hero-stat-divider"></div>
         <div class="hero-stat">
-          <span class="hero-stat-number">12</span>
+          <span id="hero-modalities-count" class="hero-stat-number">12</span>
           <span class="hero-stat-label">CGT Modalities</span>
         </div>
       </div>
@@ -378,196 +378,7 @@
     AFTER it has been loaded by loadAllData() in script.js.
     In a larger project, this would move to script.js once data loading is async-refactored.
   -->
-  <script>
-    const guidelineFilters = {
-      category: 'all',
-      country: 'all',
-      agency: 'all',
-      search: ''
-    };
-
-    // Collapse state: when true show a maximum of 5 entries
-    let guidelinesCollapsed = true;
-
-    function toggleGuidelinesCollapsed() {
-      guidelinesCollapsed = !guidelinesCollapsed;
-      const btn = document.getElementById('guidelines-toggle');
-      if (btn) {
-        btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
-        btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
-      }
-      buildGuidelinesList(guidelineFilters.category);
-    }
-
-    function getUniqueGuidelineValues(field) {
-      return Array.from(new Set(guidelinesData.map(function (item) {
-        return item[field];
-      }).filter(Boolean))).sort();
-    }
-
-    function populateGuidelineDropdowns() {
-      const countrySelect = document.getElementById('country-filter');
-      const agencySelect = document.getElementById('agency-filter');
-      if (!countrySelect || !agencySelect) return;
-
-      getUniqueGuidelineValues('country').forEach(function (country) {
-        const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
-      });
-
-      getUniqueGuidelineValues('agency').forEach(function (agency) {
-        const option = document.createElement('option');
-        option.value = agency;
-        option.textContent = agency;
-        agencySelect.appendChild(option);
-      });
-    }
-
-    /**
-     * Builds the complete guidelines list in the #guidelines-list section.
-     * Called after guidelinesData is populated by loadAllData().
-     */
-    function buildGuidelinesList(filter) {
-      const list = document.getElementById('guidelines-list');
-      if (!list) return;
-
-      // Wait a moment if data hasn't arrived yet
-      if (!guidelinesData || guidelinesData.length === 0) {
-        setTimeout(function () { buildGuidelinesList(filter); }, 300);
-        return;
-      }
-
-      const activeFilters = Object.assign({}, guidelineFilters, {
-        category: filter || guidelineFilters.category
-      });
-
-      const items = guidelinesData.filter(function (g) {
-        const categoryMatch = activeFilters.category === 'all' || g.category === activeFilters.category;
-        const countryMatch = activeFilters.country === 'all' || g.country === activeFilters.country;
-        const agencyMatch = activeFilters.agency === 'all' || g.agency === activeFilters.agency;
-        const searchableText = [
-          g.id,
-          g.title,
-          g.description,
-          g.country,
-          g.agency,
-          g.category,
-          g.year,
-          Array.isArray(g.keywords) ? g.keywords.join(' ') : ''
-        ].join(' ').toLowerCase();
-        const searchMatch = !activeFilters.search || searchableText.includes(activeFilters.search);
-        return categoryMatch && countryMatch && agencyMatch && searchMatch;
-      });
-
-      list.innerHTML = '';
-
-      if (items.length === 0) {
-        list.innerHTML = '<div class="placeholder-text">No guidelines match the selected filters.</div>';
-        return;
-      }
-
-      // Show or hide the toggle button depending on number of items
-      const toggleBtn = document.getElementById('guidelines-toggle');
-      if (toggleBtn) toggleBtn.style.display = items.length > 5 ? 'inline-flex' : 'none';
-
-      // Respect collapsed state: show only first 5 when collapsed
-      const displayItems = (guidelinesCollapsed && items.length > 5) ? items.slice(0, 5) : items;
-
-      displayItems.forEach(function (item) {
-        const card = document.createElement('div');
-        card.className = 'guideline-card';
-
-        const pdfBtn = item.pdf
-          ? `<a class="btn btn-primary" href="${item.pdf}" target="_blank">View PDF</a>
-             <a class="btn btn-secondary" href="${item.pdf}" download>Download PDF</a>`
-          : '';
-
-        const extBtn = item.external
-          ? `<a class="btn btn-secondary" href="${item.external}" target="_blank" rel="noopener">Official Website ↗</a>`
-          : '';
-
-        card.innerHTML = `
-          <div class="guideline-card-header">
-            <div class="guideline-meta">
-              <span class="tag tag-id">${item.id}</span>
-              <span class="tag tag-agency">${item.agency}</span>
-              <span class="tag tag-category">${item.category}</span>
-              <span class="tag tag-year">${item.year}</span>
-            </div>
-          </div>
-          <div class="guideline-title">${item.title}</div>
-          <div class="guideline-desc">${item.description}</div>
-          <div class="guideline-actions">
-            ${pdfBtn}
-            ${extBtn}
-          </div>
-        `;
-
-        list.appendChild(card);
-      });
-
-      // If collapsed and not all items shown, add a small note
-      if (guidelinesCollapsed && items.length > displayItems.length) {
-        const note = document.createElement('div');
-        note.className = 'guideline-collapsed-note';
-        note.textContent = `Showing ${displayItems.length} of ${items.length} guidelines — click "${guidelinesCollapsed ? 'Show more' : 'Show fewer'}" to toggle.`;
-        list.appendChild(note);
-      }
-    }
-
-    /**
-     * Filter button handler — called by onclick on the filter buttons.
-     */
-    function filterGuidelines(category) {
-      guidelineFilters.category = category;
-
-      document.querySelectorAll('.guideline-filters .btn').forEach(function (button) {
-        const isActive = button.dataset.filter === category;
-        button.classList.toggle('is-active', isActive);
-        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
-
-      buildGuidelinesList(category);
-    }
-
-    function filterGuidelineDropdowns() {
-      const countrySelect = document.getElementById('country-filter');
-      const agencySelect = document.getElementById('agency-filter');
-
-      guidelineFilters.country = countrySelect ? countrySelect.value : 'all';
-      guidelineFilters.agency = agencySelect ? agencySelect.value : 'all';
-
-      buildGuidelinesList(guidelineFilters.category);
-    }
-
-    function filterGuidelineSearch() {
-      const searchInput = document.getElementById('guideline-search');
-      guidelineFilters.search = searchInput ? searchInput.value.trim().toLowerCase() : '';
-
-      buildGuidelinesList(guidelineFilters.category);
-    }
-
-    // Build the list once data is ready
-    // We poll until guidelinesData is available
-    function waitAndBuild() {
-      if (typeof guidelinesData !== 'undefined' && guidelinesData.length > 0) {
-        populateGuidelineDropdowns();
-        buildGuidelinesList('all');
-
-        // Ensure the toggle button reflects the default collapsed state on first load
-        const btn = document.getElementById('guidelines-toggle');
-        if (btn) {
-          btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
-          btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
-        }
-      } else {
-        setTimeout(waitAndBuild, 200);
-      }
-    }
-    waitAndBuild();
-  </script>
+  <!-- Guidelines logic has been moved to script.js (functions: buildGuidelinesList, filters) -->
 
 </body>
 </html>

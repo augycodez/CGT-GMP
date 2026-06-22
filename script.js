@@ -104,6 +104,8 @@ async function loadAllData() {
   buildCountryCards();
   buildAgencyCards();
   buildCGTCards();
+  // Update hero stats with runtime counts
+  updateHeroStats();
 }
 
 // ── SECTION 4: SEARCH ─────────────────────────────────────────
@@ -444,6 +446,291 @@ function buildCGTCards() {
   }
 }
 
+/**
+ * Updates the hero statistic numbers on the homepage using loaded JSON data.
+ */
+function updateHeroStats() {
+  const elCountries = document.getElementById('hero-countries-count');
+  const elAgencies = document.getElementById('hero-agencies-count');
+  const elGuidelines = document.getElementById('hero-guidelines-count');
+  const elModalities = document.getElementById('hero-modalities-count');
+
+  if (elCountries) elCountries.textContent = (countriesData && countriesData.length) ? countriesData.length + '+' : '0';
+  if (elAgencies) elAgencies.textContent = (agenciesData && agenciesData.length) ? agenciesData.length + '+' : '0';
+  if (elGuidelines) elGuidelines.textContent = (guidelinesData && guidelinesData.length) ? guidelinesData.length + '+' : '0';
+  if (elModalities) elModalities.textContent = (Array.isArray(CGT_PRODUCTS) ? CGT_PRODUCTS.length : 0);
+}
+
+// ── SECTION 8: GUIDELINES LIST (moved from inline in index.html) ─────────────────
+
+const guidelineFilters = {
+  category: 'all',
+  country: 'all',
+  agency: 'all',
+  search: ''
+};
+
+let guidelinesCollapsed = true;
+
+function toggleGuidelinesCollapsed() {
+  guidelinesCollapsed = !guidelinesCollapsed;
+  const btn = document.getElementById('guidelines-toggle');
+  if (btn) {
+    btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
+    btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
+  }
+  buildGuidelinesList(guidelineFilters.category);
+}
+
+function getUniqueGuidelineValues(field) {
+  return Array.from(new Set(guidelinesData.map(function (item) {
+    return item[field];
+  }).filter(Boolean))).sort();
+}
+
+function populateGuidelineDropdowns() {
+  const countrySelect = document.getElementById('country-filter');
+  const agencySelect = document.getElementById('agency-filter');
+  if (!countrySelect || !agencySelect) return;
+
+  getUniqueGuidelineValues('country').forEach(function (country) {
+    const option = document.createElement('option');
+    option.value = country;
+    option.textContent = country;
+    countrySelect.appendChild(option);
+  });
+
+  getUniqueGuidelineValues('agency').forEach(function (agency) {
+    const option = document.createElement('option');
+    option.value = agency;
+    option.textContent = agency;
+    agencySelect.appendChild(option);
+  });
+}
+
+function buildGuidelinesList(filter) {
+  const list = document.getElementById('guidelines-list');
+  if (!list) return;
+
+  if (!guidelinesData || guidelinesData.length === 0) {
+    setTimeout(function () { buildGuidelinesList(filter); }, 300);
+    return;
+  }
+
+  const activeFilters = Object.assign({}, guidelineFilters, {
+    category: filter || guidelineFilters.category
+  });
+
+  const items = guidelinesData.filter(function (g) {
+    const categoryMatch = activeFilters.category === 'all' || g.category === activeFilters.category;
+    const countryMatch = activeFilters.country === 'all' || g.country === activeFilters.country;
+    const agencyMatch = activeFilters.agency === 'all' || g.agency === activeFilters.agency;
+    const searchableText = [
+      g.id,
+      g.title,
+      g.description,
+      g.country,
+      g.agency,
+      g.category,
+      g.year,
+      Array.isArray(g.keywords) ? g.keywords.join(' ') : ''
+    ].join(' ').toLowerCase();
+    const searchMatch = !activeFilters.search || searchableText.includes(activeFilters.search);
+    return categoryMatch && countryMatch && agencyMatch && searchMatch;
+  });
+
+  list.innerHTML = '';
+
+  if (items.length === 0) {
+    list.innerHTML = '<div class="placeholder-text">No guidelines match the selected filters.</div>';
+    return;
+  }
+
+  const toggleBtn = document.getElementById('guidelines-toggle');
+  if (toggleBtn) toggleBtn.style.display = items.length > 5 ? 'inline-flex' : 'none';
+
+  const displayItems = (guidelinesCollapsed && items.length > 5) ? items.slice(0, 5) : items;
+
+  // Helper: check whether a file is reachable (HEAD prefers, GET fallback)
+  async function checkFileExists(url) {
+    try {
+      const res = await fetch(url, { method: 'HEAD' });
+      if (res && res.ok) return true;
+    } catch (e) {
+      // HEAD may be blocked; try GET as a fallback
+      try {
+        const r = await fetch(url, { cache: 'no-cache' });
+        return r && r.ok;
+      } catch (e2) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  function basenameFromUrl(u) {
+    try {
+      return u.split('/').pop().split('?')[0].split('#')[0];
+    } catch (e) {
+      return u;
+    }
+  }
+
+  displayItems.forEach(function (item) {
+    const card = document.createElement('div');
+    card.className = 'guideline-card';
+
+    // Initial render with metadata and a placeholder for actions
+    card.innerHTML = `
+      <div class="guideline-card-header">
+        <div class="guideline-meta">
+          <span class="tag tag-id">${item.id}</span>
+          <span class="tag tag-agency">${item.agency}</span>
+          <span class="tag tag-category">${item.category}</span>
+          <span class="tag tag-year">${item.year}</span>
+          <span class="tag tag-local" data-local-flag style="display:none"></span>
+        </div>
+      </div>
+      <div class="guideline-title">${item.title}</div>
+      <div class="guideline-desc">${item.description}</div>
+      <div class="guideline-actions">
+        <span class="guideline-actions-placeholder">Checking for local copy…</span>
+      </div>
+    `;
+
+    list.appendChild(card);
+
+    // Resolve PDF buttons asynchronously: prefer a local copy if present
+    (async function resolvePdf() {
+      const actionsEl = card.querySelector('.guideline-actions');
+      if (!actionsEl) return;
+
+      let localCandidates = [];
+        // Prefer an explicit localPdf field if provided in data/guidelines.json
+        if (item.localPdf) {
+          localCandidates.push(item.localPdf);
+          // also accept alternate relative paths
+          if (!item.localPdf.startsWith('../') && !item.localPdf.startsWith('/')) {
+            localCandidates.push('../' + item.localPdf);
+          }
+        }
+
+        // If no explicit localPdf provided, derive candidates from item.pdf
+        if (localCandidates.length === 0 && item.pdf) {
+          if (item.pdf.startsWith('http')) {
+            const name = basenameFromUrl(item.pdf);
+            localCandidates.push('pdfs/' + name);
+            localCandidates.push('../pdfs/' + name);
+          } else if (item.pdf.startsWith('../pdfs/') || item.pdf.startsWith('pdfs/')) {
+            localCandidates.push(item.pdf);
+            // also try the alternate relative path
+            localCandidates.push(item.pdf.replace(/^\.\./, ''));
+            localCandidates.push('../' + item.pdf.replace(/^\.\//, ''));
+          } else {
+            // fallback attempt
+            const name = basenameFromUrl(item.pdf);
+            localCandidates.push('pdfs/' + name);
+          }
+        }
+
+      let chosenPdf = null;
+      for (let i = 0; i < localCandidates.length; i++) {
+        const candidate = localCandidates[i];
+        try {
+          const exists = await checkFileExists(candidate);
+          if (exists) {
+            chosenPdf = candidate;
+            break;
+          }
+        } catch (e) {
+          // noisy networks or CORS can cause checks to fail — ignore and continue
+        }
+      }
+
+      // If we found a local copy, use it and enable download; otherwise fall back to item.pdf or external link
+      const pdfUrl = chosenPdf || item.pdf || '';
+      const isLocal = chosenPdf !== null;
+
+      // Update admin/status badge indicating whether a local copy exists
+      const localFlagEl = card.querySelector('[data-local-flag]');
+      if (localFlagEl) {
+        if (isLocal) {
+          localFlagEl.textContent = 'Local copy';
+          localFlagEl.style.display = 'inline-block';
+          localFlagEl.title = pdfUrl;
+        } else {
+          localFlagEl.style.display = 'none';
+          localFlagEl.textContent = '';
+          localFlagEl.removeAttribute('title');
+        }
+      }
+
+      const pdfBtn = pdfUrl
+        ? `<a class="btn btn-primary" href="${pdfUrl}" target="_blank">View PDF</a>
+           ${isLocal ? `<a class="btn btn-secondary" href="${pdfUrl}" download>Download PDF</a>` : ''}`
+        : '';
+
+      const extBtn = item.external
+        ? `<a class="btn btn-secondary" href="${item.external}" target="_blank" rel="noopener">Official Website ↗</a>`
+        : '';
+
+      actionsEl.innerHTML = pdfBtn + extBtn;
+    })();
+  });
+
+  if (guidelinesCollapsed && items.length > displayItems.length) {
+    const note = document.createElement('div');
+    note.className = 'guideline-collapsed-note';
+    note.textContent = `Showing ${displayItems.length} of ${items.length} guidelines — click "${guidelinesCollapsed ? 'Show more' : 'Show fewer'}" to toggle.`;
+    list.appendChild(note);
+  }
+}
+
+function filterGuidelines(category) {
+  guidelineFilters.category = category;
+
+  document.querySelectorAll('.guideline-filters .btn').forEach(function (button) {
+    const isActive = button.dataset.filter === category;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+
+  buildGuidelinesList(category);
+}
+
+function filterGuidelineDropdowns() {
+  const countrySelect = document.getElementById('country-filter');
+  const agencySelect = document.getElementById('agency-filter');
+
+  guidelineFilters.country = countrySelect ? countrySelect.value : 'all';
+  guidelineFilters.agency = agencySelect ? agencySelect.value : 'all';
+
+  buildGuidelinesList(guidelineFilters.category);
+}
+
+function filterGuidelineSearch() {
+  const searchInput = document.getElementById('guideline-search');
+  guidelineFilters.search = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  buildGuidelinesList(guidelineFilters.category);
+}
+
+function waitAndBuild() {
+  if (typeof guidelinesData !== 'undefined' && guidelinesData.length > 0) {
+    populateGuidelineDropdowns();
+    buildGuidelinesList('all');
+
+    const btn = document.getElementById('guidelines-toggle');
+    if (btn) {
+      btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
+      btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
+    }
+  } else {
+    setTimeout(waitAndBuild, 200);
+  }
+}
+
+
 // ── SECTION 8: ACTIVE NAV LINK ────────────────────────────────
 
 /**
@@ -504,6 +791,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Load JSON data and build dynamic sections
   loadAllData();
+
+  // Start the guidelines builder which waits for guidelinesData
+  if (typeof waitAndBuild === 'function') waitAndBuild();
 
   console.log('Global GMP Intelligence Platform — ready ✓');
 });

@@ -1,5 +1,6 @@
+
 [
- {
+  {
     "id": "FDA001",
     "title": "Current Good Manufacturing Practice (cGMP) for Finished Pharmaceuticals",
     "country": "United States",
@@ -125,6 +126,7 @@
     "year": "2022",
     "description": "The revised 2022 Annex 1 to EU GMP — the global benchmark for sterile manufacturing, introducing the Contamination Control Strategy (CCS) concept.",
     "pdf": "",
+    "localPdf": "pdfs/eu_gmp_annex1_2022.pdf",
     "external": "https://health.ec.europa.eu/system/files/2022-08/20220825_gmp-an1_en_0.pdf",
     "keywords": [
       "Annex 1",
@@ -203,6 +205,7 @@
     "year": "2022",
     "description": "The UK's definitive GMP guide (post-Brexit) — the Orange Guide — covering all aspects of pharmaceutical manufacturing quality for the UK market.",
     "pdf": "",
+    "localPdf": "pdfs/mhra_orange_guide.pdf",
     "external": "https://www.gov.uk/government/publications/rules-and-guidance-for-pharmaceutical-manufacturers-and-distributors",
     "keywords": [
       "Orange Guide",
@@ -221,7 +224,7 @@
     "year": "2017",
     "description": "ICMR/DBT national guidelines governing stem cell research, banking, and clinical application in India — the primary regulatory framework for cell therapy at Indian institutions.",
     "pdf": "",
-    "external": "https://nirrch.res.in/wp-content/uploads/2023/10/National-Guidelines-for-stem-cell-research-2017_Part-1.pdf",
+    "external": "https://main.icmr.nic.in/sites/default/files/guidelines/Stem_Cell_Guidelines2017.pdf",
     "keywords": [
       "stem cell",
       "India",
@@ -241,7 +244,8 @@
     "year": "2019",
     "description": "India's primary regulatory rules for new drugs, biological products, and clinical trials — successor to Schedule Y. Governs approval pathways for ATMPs in India.",
     "pdf": "",
-    "external": "https://cdsco.gov.in/opencms/opencms/en/Acts-and-rules/New-Drugs/",
+    "localPdf": "pdfs/ndct_rules_2019.pdf",
+    "external": "https://cdsco.gov.in/opencms/opencms/en/Regulations/",
     "keywords": [
       "NDCT Rules",
       "India",
@@ -260,6 +264,7 @@
     "year": "2022",
     "description": "WHO core GMP guidelines (TRS 986, Annex 2) — the international reference standard used by regulatory authorities in over 150 countries.",
     "pdf": "",
+    "localPdf": "pdfs/who_trs999_annex2.pdf",
     "external": "https://www.who.int/publications/m/item/who-good-manufacturing-practices-for-pharmaceutical-products-main-principles",
     "keywords": [
       "WHO",
@@ -298,6 +303,7 @@
     "year": "2023",
     "description": "PIC/S PE 009 — harmonized GMP guide adopted by 56 participating authorities including TGA, Health Canada, PMDA, and CDSCO. Aligned with EU GMP.",
     "pdf": "",
+    "localPdf": "pdfs/pics_smf_docview_3463.html",
     "external": "https://picscheme.org/en/publications",
     "keywords": [
       "PIC/S",
@@ -1357,6 +1363,307 @@
       "GMP",
       "inspection",
       "harmonised"
+    ]
+  },
+  {
+    "id": "FDA-CFR-011",
+    "title": "21 CFR Part 11 — Electronic Records; Electronic Signatures",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "GMP",
+    "year": "2024",
+    "description": "FDA regulation governing electronic records and electronic signatures in pharmaceutical and CGT manufacturing. Mandates audit trails, access controls, system validation, and equivalence of electronic signatures to handwritten signatures. Core requirement for paperless GMP batch records and LIMS.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-11",
+    "keywords": [
+      "21 CFR Part 11",
+      "electronic records",
+      "electronic signatures",
+      "data integrity",
+      "audit trail",
+      "LIMS",
+      "CSV",
+      "FDA",
+      "GMP",
+      "CGT"
+    ]
+  },
+  {
+    "id": "FDA-CFR-050",
+    "title": "21 CFR Part 50 — Protection of Human Subjects",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA regulation establishing informed consent requirements for human subjects in clinical investigations including CGT trials. Covers elements of informed consent, exceptions, and documentation requirements for Phase I/II/III CGT studies.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-50",
+    "keywords": [
+      "21 CFR Part 50",
+      "informed consent",
+      "human subjects",
+      "clinical trial",
+      "FDA",
+      "CGT",
+      "gene therapy",
+      "CAR-T",
+      "protection"
+    ]
+  },
+  {
+    "id": "FDA-CFR-054",
+    "title": "21 CFR Part 54 — Financial Disclosure by Clinical Investigators",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA regulation requiring disclosure of financial interests held by clinical investigators in CGT and other clinical trials. Mandatory submission with marketing applications (BLA) and IND-related documents to identify potential bias.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-54",
+    "keywords": [
+      "21 CFR Part 54",
+      "financial disclosure",
+      "clinical investigator",
+      "BLA",
+      "IND",
+      "FDA",
+      "CGT",
+      "conflict of interest"
+    ]
+  },
+  {
+    "id": "FDA-CFR-056",
+    "title": "21 CFR Part 56 — Institutional Review Boards (IRB)",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA regulation governing the composition, operations, review procedures, and record-keeping of Institutional Review Boards for CGT and other clinical trials. Covers IRB approval, continuing review, and expedited review procedures.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-56",
+    "keywords": [
+      "21 CFR Part 56",
+      "IRB",
+      "institutional review board",
+      "ethics",
+      "clinical trial",
+      "FDA",
+      "CGT",
+      "human subjects"
+    ]
+  },
+  {
+    "id": "FDA-CFR-058",
+    "title": "21 CFR Part 58 — Good Laboratory Practice for Non-Clinical Laboratory Studies",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "GMP",
+    "year": "2024",
+    "description": "FDA GLP regulations governing non-clinical safety and toxicology studies submitted to FDA in support of CGT IND and BLA applications. Covers study conduct, personnel, facilities, equipment, SOPs, raw data, and final reports for preclinical CGT studies.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-58",
+    "keywords": [
+      "21 CFR Part 58",
+      "GLP",
+      "good laboratory practice",
+      "non-clinical",
+      "toxicology",
+      "preclinical",
+      "IND",
+      "FDA",
+      "CGT",
+      "safety study"
+    ]
+  },
+  {
+    "id": "FDA-CFR-210",
+    "title": "21 CFR Part 210 — Current Good Manufacturing Practice — General",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "GMP",
+    "year": "2024",
+    "description": "21 CFR Part 210 defines the scope and applicability of US cGMP regulations. Establishes that Parts 210 and 211 set minimum requirements for manufacturing, processing, packing, and holding of drug products including biological CGT drug products.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-210",
+    "keywords": [
+      "21 CFR Part 210",
+      "cGMP",
+      "GMP",
+      "FDA",
+      "pharmaceutical",
+      "manufacturing",
+      "drug product",
+      "CGT",
+      "scope"
+    ]
+  },
+  {
+    "id": "FDA-CFR-211",
+    "title": "21 CFR Part 211 — cGMP for Finished Pharmaceuticals",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "GMP",
+    "year": "2024",
+    "description": "The primary US cGMP regulation for finished pharmaceutical products. Covers organisation and personnel, buildings and facilities, equipment, control of components, production and process controls, laboratory controls, records and reports, and returned/salvaged drug products. Foundation for all CGT GMP compliance in the US.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211",
+    "keywords": [
+      "21 CFR Part 211",
+      "cGMP",
+      "GMP",
+      "FDA",
+      "pharmaceutical",
+      "manufacturing",
+      "QC",
+      "validation",
+      "equipment",
+      "personnel",
+      "CGT"
+    ]
+  },
+  {
+    "id": "FDA-CFR-312",
+    "title": "21 CFR Part 312 — Investigational New Drug Application (IND)",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA IND regulation governing clinical trial authorisation for CGT and other investigational products. Covers IND content requirements (CMC, pharmacology/toxicology, clinical protocol, investigator information), IND amendments, annual reports, safety reporting, and Phase 1/2/3 requirements.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-312",
+    "keywords": [
+      "21 CFR Part 312",
+      "IND",
+      "investigational new drug",
+      "clinical trial",
+      "FDA",
+      "CGT",
+      "CMC",
+      "Phase 1",
+      "gene therapy",
+      "CAR-T",
+      "safety reporting"
+    ]
+  },
+  {
+    "id": "FDA-CFR-314",
+    "title": "21 CFR Part 314 — New Drug Applications (NDA)",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA NDA regulation applicable to CGT combination products with a drug primary mode of action. Covers NDA content, review procedures, accelerated approval, post-marketing requirements, and labelling — relevant where a CGT product is regulated as a drug rather than a biologic.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-314",
+    "keywords": [
+      "21 CFR Part 314",
+      "NDA",
+      "new drug application",
+      "combination product",
+      "FDA",
+      "CGT",
+      "accelerated approval",
+      "labelling"
+    ]
+  },
+  {
+    "id": "FDA-CFR-600",
+    "title": "21 CFR Part 600 — Biological Products — General",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "General FDA regulations for biological products including CGT products regulated as biologics by CBER. Covers establishment registration, product listing, labelling, reporting of biological product deviations, and adverse experience reporting requirements.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-F/part-600",
+    "keywords": [
+      "21 CFR Part 600",
+      "biologics",
+      "CBER",
+      "FDA",
+      "CGT",
+      "establishment registration",
+      "deviation reporting",
+      "adverse event",
+      "gene therapy",
+      "CAR-T"
+    ]
+  },
+  {
+    "id": "FDA-CFR-601",
+    "title": "21 CFR Part 601 — Licensing of Biological Products (BLA)",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA regulation governing Biologics License Application (BLA) submission and approval for CGT products. Covers establishment licence requirements, BLA content, accelerated approval, priority review, breakthrough therapy designation, and post-approval commitments.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-F/part-601",
+    "keywords": [
+      "21 CFR Part 601",
+      "BLA",
+      "biologics licence",
+      "FDA",
+      "CBER",
+      "CGT",
+      "accelerated approval",
+      "breakthrough therapy",
+      "CAR-T",
+      "gene therapy",
+      "market authorisation"
+    ]
+  },
+  {
+    "id": "FDA-CFR-610",
+    "title": "21 CFR Part 610 — General Biological Product Standards",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA standards applicable to all licensed biological products including CGT. Covers sterility testing, general safety testing, potency assays, identity testing, purity, constituent materials, labelling, and dating requirements. The regulatory foundation for CGT product release specifications.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-F/part-610",
+    "keywords": [
+      "21 CFR Part 610",
+      "biologics standards",
+      "sterility",
+      "potency",
+      "purity",
+      "identity",
+      "release testing",
+      "FDA",
+      "CGT",
+      "cell therapy",
+      "gene therapy",
+      "CBER"
+    ]
+  },
+  {
+    "id": "FDA-CFR-1271",
+    "title": "21 CFR Part 1271 — Human Cells, Tissues, and Cellular and Tissue-Based Products (HCT/Ps)",
+    "country": "United States",
+    "agency": "FDA",
+    "category": "Cell and Gene Therapy",
+    "year": "2024",
+    "description": "FDA's Current Good Tissue Practice (CGTP) regulation for HCT/Ps including donor eligibility, donor screening and testing, processing, storage, labelling, and distribution. Defines the 361 vs 351 HCT/P regulatory pathway distinction — critical for determining whether a cell therapy requires a BLA or is exempt. Directly applicable to CAR-T apheresis material handling, MSC banking, and corneal endothelial cell products.",
+    "pdf": "",
+    "external": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-L/part-1271",
+    "keywords": [
+      "21 CFR Part 1271",
+      "HCT/P",
+      "CGTP",
+      "donor eligibility",
+      "tissue handling",
+      "cell therapy",
+      "FDA",
+      "CGT",
+      "361 products",
+      "351 products",
+      "CAR-T",
+      "MSC",
+      "corneal",
+      "HCEC",
+      "apheresis"
     ]
   }
 ]

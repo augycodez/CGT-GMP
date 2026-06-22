@@ -163,3 +163,45 @@ This platform is a community reference resource. Always verify regulatory guidan
 ## License
 
 MIT License — free to use, modify, and distribute.
+
+---
+
+## Deployment (Make this live)
+
+This repository includes a GitHub Actions workflow that will publish the site to GitHub Pages when you push to the `main` branch.
+
+What I added:
+- **Workflow:** [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — uses GitHub Pages actions to publish the repository root.
+
+Quick steps to go live:
+
+1. Create a GitHub repository and push this project to it (replace `<your-repo-url>`):
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin <your-repo-url>
+git push -u origin main
+```
+
+2. After the push, the workflow will run and publish the site to GitHub Pages. Visit https://<your-github-username>.github.io/<repo-name>/ once the job completes.
+
+Notes:
+- If your repository's default branch is not `main`, update the workflow `on.push.branches` value accordingly.
+- Alternatively, if you prefer Netlify or Vercel, I can add a `netlify.toml` or a Vercel config and give one-click deploy instructions.
+
+Custom domain setup (CNAME):
+
+1. I added a `CNAME` file at the repository root with your domain: `cgtgmp.com`.
+2. In your DNS provider, add these records:
+  - `A` record for `@` -> `185.199.108.153`
+  - `A` record for `@` -> `185.199.109.153`
+  - `A` record for `@` -> `185.199.110.153`
+  - `A` record for `@` -> `185.199.111.153`
+3. Wait for DNS to propagate (can take up to 24 hours).
+4. Once Pages deploys, GitHub will provision TLS automatically for `cgtgmp.com`.
+
+If you'd like, I can also add `www` redirection instructions or create the `www.cgtgmp.com` CNAME to point to `cgtgmp.com`.
+
