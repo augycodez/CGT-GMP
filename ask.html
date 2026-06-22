@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask GMP AI — Global GMP Intelligence Platform</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="nav-logo" href="index.html">
+        <div class="nav-logo-icon">GMP</div>
+        <span class="nav-logo-text">Global <span>GMP</span> Intelligence</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#countries">Countries</a></li>
+        <li><a href="index.html#agencies">Agencies</a></li>
+        <li class="nav-cgt"><a href="index.html#cgt-hub">CGT Hub</a></li>
+        <li><a href="index.html#search-section">Search</a></li>
+        <li class="nav-ai"><a href="ask.html" class="active">Ask GMP AI</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <div class="theme-toggle-knob">🌙</div>
+        </button>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="ask-hero">
+    <div class="ask-container">
+
+      <!-- Header -->
+      <div class="ask-header">
+        <div class="hero-eyebrow">Powered by local LLM · Coming Soon</div>
+        <h1 class="ask-title">Ask <span class="text-accent">GMP AI</span></h1>
+        <p style="color:var(--color-text-secondary);font-size:15px;line-height:1.7;max-width:520px;margin:0 auto;">
+          Ask questions about GMP guidelines, regulatory requirements,
+          cell &amp; gene therapy manufacturing standards, and compliance across
+          FDA, EMA, MHRA, CDSCO, WHO, and PIC/S.
+        </p>
+      </div>
+
+      <!-- Coming soon notice -->
+      <div class="ask-coming-soon">
+        <h3>⚙ AI Integration In Progress</h3>
+        <p style="color:var(--color-text-secondary);font-size:14px;line-height:1.7;margin-bottom:16px;">
+          The AI backend is being built. This page will connect to a local language model
+          (Ollama / Qwen3 / Llama 3 / Gemma 3) running on your machine — keeping your
+          regulatory queries completely private with no data sent to external servers.
+        </p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <span class="tag tag-agency">Ollama</span>
+          <span class="tag tag-agency">Qwen3</span>
+          <span class="tag tag-agency">Llama 3</span>
+          <span class="tag tag-agency">Gemma 3</span>
+          <span class="tag tag-agency">LlamaIndex</span>
+          <span class="tag tag-agency">LangChain</span>
+        </div>
+      </div>
+
+      <!-- Input box (UI preview — not functional yet) -->
+      <div class="ask-input-box">
+        <textarea
+          class="ask-input"
+          id="ask-input"
+          placeholder="Ask a GMP question… e.g. What are FDA requirements for aseptic processing of CAR-T cells?"
+          rows="3"
+          disabled
+        ></textarea>
+        <button class="btn btn-primary" disabled style="align-self:flex-end;opacity:0.5;cursor:not-allowed;">
+          Ask →
+        </button>
+      </div>
+
+      <p style="font-size:11px;color:var(--color-text-muted);text-align:center;margin-bottom:32px;">
+        AI responses will be grounded in guidelines from <code style="font-family:var(--font-mono)">data/guidelines.json</code> and any PDFs placed in <code style="font-family:var(--font-mono)">pdfs/</code>.
+      </p>
+
+      <!-- Example questions -->
+      <h3 style="font-size:12px;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">
+        Example Questions
+      </h3>
+      <div class="ask-examples">
+        <div class="ask-example">What are FDA requirements for aseptic processing?</div>
+        <div class="ask-example">Compare MHRA and WHO GMP for cell therapy.</div>
+        <div class="ask-example">What are CGT manufacturing GMP requirements in India?</div>
+        <div class="ask-example">What viral safety tests are needed for lentiviral vectors?</div>
+        <div class="ask-example">Summarise EU GMP Annex 1 for sterile manufacture.</div>
+        <div class="ask-example">What potency assay approaches does FDA recommend for CAR-T?</div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script src="ask.js"></script>
+</body>
+</html>

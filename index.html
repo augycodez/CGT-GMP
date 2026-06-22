@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global GMP Intelligence Platform</title>
+  <meta name="description" content="Search, explore and compare Good Manufacturing Practice guidelines from regulatory agencies worldwide. GMP, CGT, ATMP, CAR-T, viral vector manufacturing." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVIGATION
+       ════════════════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+
+      <!-- Logo -->
+      <a class="nav-logo" href="index.html" aria-label="Global GMP Intelligence Platform home">
+        <div class="nav-logo-icon">GMP</div>
+        <span class="nav-logo-text">Global <span>GMP</span> Intelligence</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#countries">Countries</a></li>
+        <li><a href="#agencies">Agencies</a></li>
+        <li class="nav-cgt"><a href="#cgt-hub">CGT Hub</a></li>
+        <li><a href="#search-section">Search</a></li>
+        <li class="nav-ai"><a href="ask.html">Ask GMP AI</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+
+      <!-- Controls: theme toggle + hamburger -->
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+          <div class="theme-toggle-knob">🌙</div>
+        </button>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="hero" id="home">
+
+    <!-- Animated signal line — the signature design element -->
+    <div class="hero-signal-line" aria-hidden="true"></div>
+
+    <div class="hero-content">
+
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow">GMP · CGT · ATMP · Regulatory Intelligence</div>
+
+      <!-- Main title -->
+      <h1 class="hero-title">
+        Global <span class="accent-word">GMP</span> Intelligence<br>Platform
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-subtitle">
+        Search, explore and compare Good Manufacturing Practice guidelines
+        from regulatory agencies worldwide. Built for GMP professionals,
+        CGT researchers and compliance teams.
+      </p>
+
+      <!-- Key stats -->
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-number">16+</span>
+          <span class="hero-stat-label">Countries</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">15+</span>
+          <span class="hero-stat-label">Agencies</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">500+</span>
+          <span class="hero-stat-label">Guidelines</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">12</span>
+          <span class="hero-stat-label">CGT Modalities</span>
+        </div>
+      </div>
+
+      <!-- Search box -->
+      <div class="search-container">
+        <div class="search-box">
+          <!-- Search icon -->
+          <span class="search-icon" aria-hidden="true">⌕</span>
+
+          <!-- Input -->
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search by country, agency, guideline, or topic…"
+            autocomplete="off"
+            aria-label="Search GMP guidelines"
+          />
+
+          <!-- Clear button (shows when text is entered) -->
+          <button class="search-clear" id="search-clear" aria-label="Clear search">✕</button>
+
+          <!-- Search button -->
+          <button class="search-btn" id="search-btn">Search</button>
+        </div>
+
+        <!-- Quick-search chips -->
+        <div class="search-chips" role="list" aria-label="Quick search examples">
+          <button class="search-chip" data-query="FDA Annex 1" role="listitem">FDA Annex 1</button>
+          <button class="search-chip" data-query="CDSCO Cell Therapy" role="listitem">CDSCO Cell Therapy</button>
+          <button class="search-chip" data-query="MHRA ATMP" role="listitem">MHRA ATMP</button>
+          <button class="search-chip" data-query="aseptic processing" role="listitem">Aseptic Processing</button>
+          <button class="search-chip" data-query="CAR-T" role="listitem">CAR-T</button>
+          <button class="search-chip" data-query="lentivirus" role="listitem">Lentivirus</button>
+          <button class="search-chip" data-query="WHO GMP" role="listitem">WHO GMP</button>
+        </div>
+
+        <!-- Live results dropdown -->
+        <div id="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COUNTRIES SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="section" id="countries">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Coverage</div>
+          <h2 class="section-title">Global GMP Library</h2>
+        </div>
+        <a href="#" class="section-link">View all countries →</a>
+      </div>
+      <div class="section-divider"></div>
+
+      <!--
+        Country cards are built dynamically by script.js → buildCountryCards().
+        To add countries: edit data/countries.json — no HTML changes needed.
+      -->
+      <div class="countries-grid" id="countries-grid">
+        <!-- Cards populated by JavaScript from data/countries.json -->
+        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading countries…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REGULATORY AGENCIES SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="section" id="agencies" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Regulatory Agencies</div>
+          <h2 class="section-title">Agency Explorer</h2>
+        </div>
+        <a href="#" class="section-link">All agencies →</a>
+      </div>
+      <div class="section-divider"></div>
+
+      <!--
+        Agency cards are built dynamically by script.js → buildAgencyCards().
+        To add agencies: edit data/agencies.json
+      -->
+      <div class="agencies-grid" id="agencies-grid">
+        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading agencies…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CGT HUB SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="section" id="cgt-hub">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Advanced Therapies</div>
+          <h2 class="section-title">Cell &amp; Gene Therapy GMP Hub</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- CGT Product modalities -->
+      <h3 style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">
+        Therapy Modalities
+      </h3>
+
+      <!--
+        Cards populated by script.js → buildCGTCards() from CGT_PRODUCTS array.
+        To add modalities: edit the CGT_PRODUCTS array in script.js
+      -->
+      <div class="cgt-grid" id="cgt-products-grid">
+        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading…</div>
+      </div>
+
+      <!-- GMP Topics -->
+      <h3 style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:16px;margin-top:40px;text-transform:uppercase;letter-spacing:0.08em;">
+        GMP Topic Areas
+      </h3>
+
+      <!--
+        Topics populated by script.js → buildCGTCards() from GMP_TOPICS array.
+      -->
+      <div class="topics-grid" id="gmp-topics-grid"></div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FULL GUIDELINES SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="section" id="search-section" style="background:var(--color-surface);border-top:1px solid var(--color-border);">
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Complete Library</div>
+          <h2 class="section-title">All Guidelines</h2>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- Filter row -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
+        <button class="btn btn-secondary" onclick="filterGuidelines('all')">All</button>
+        <button class="btn btn-secondary" onclick="filterGuidelines('GMP')">GMP</button>
+        <button class="btn btn-amber" onclick="filterGuidelines('Cell and Gene Therapy')">Cell &amp; Gene Therapy</button>
+        <button class="btn btn-secondary" onclick="filterGuidelines('Aseptic Processing')">Aseptic Processing</button>
+      </div>
+
+      <!-- Guidelines list — built by buildGuidelinesList() below -->
+      <div class="guidelines-list" id="guidelines-list">
+        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading guidelines…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ABOUT SECTION
+       ════════════════════════════════════════════════════ -->
+  <section class="section" id="about">
+    <div class="section-inner" style="max-width:760px;">
+      <div class="section-label">About</div>
+      <h2 class="section-title">Built for GMP Professionals</h2>
+      <div class="section-divider"></div>
+      <p style="font-size:15px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:24px;">
+        The Global GMP Intelligence Platform is an open, community-maintained reference library
+        for Good Manufacturing Practice guidelines. It is designed specifically for GMP practitioners
+        in cell and gene therapy, biologics, and pharmaceutical manufacturing — with a focus on
+        ease of access, comparative navigation, and offline-ready deployment.
+      </p>
+      <p style="font-size:15px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:24px;">
+        Built in plain HTML, CSS and JavaScript — no frameworks, no database. Runs locally in
+        VS Code Live Server or from any static web host. Add your own PDFs to the
+        <code style="font-family:var(--font-mono);color:var(--color-accent);font-size:13px;">pdfs/</code>
+        folders and reference them in
+        <code style="font-family:var(--font-mono);color:var(--color-accent);font-size:13px;">data/guidelines.json</code>.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="https://github.com" class="btn btn-primary" target="_blank">View on GitHub ↗</a>
+        <a href="ask.html" class="btn btn-secondary">Ask GMP AI (coming soon)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="nav-logo-icon">GMP</div>
+          <span class="nav-logo-text">Global <span>GMP</span> Intelligence</span>
+        </div>
+        <p>
+          An open reference library for GMP guidelines, regulatory frameworks,
+          and cell &amp; gene therapy quality standards worldwide.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="#countries">Countries</a></li>
+          <li><a href="#agencies">Agencies</a></li>
+          <li><a href="#cgt-hub">CGT Hub</a></li>
+          <li><a href="#search-section">Guidelines</a></li>
+          <li><a href="ask.html">Ask GMP AI</a></li>
+        </ul>
+      </div>
+
+      <!-- Agencies -->
+      <div>
+        <div class="footer-col-title">Key Agencies</div>
+        <ul class="footer-links">
+          <li><a href="agencies/fda.html">FDA (USA)</a></li>
+          <li><a href="agencies/ema.html">EMA (EU)</a></li>
+          <li><a href="agencies/mhra.html">MHRA (UK)</a></li>
+          <li><a href="agencies/cdsco.html">CDSCO (India)</a></li>
+          <li><a href="agencies/who.html">WHO</a></li>
+          <li><a href="agencies/pics.html">PIC/S</a></li>
+        </ul>
+      </div>
+
+      <!-- CGT -->
+      <div>
+        <div class="footer-col-title">CGT Modalities</div>
+        <ul class="footer-links">
+          <li><a href="cgt/car-t.html">CAR-T Cell Therapy</a></li>
+          <li><a href="cgt/aav.html">AAV Vectors</a></li>
+          <li><a href="cgt/lentivirus.html">Lentiviral Vectors</a></li>
+          <li><a href="cgt/msc.html">MSC Therapy</a></li>
+          <li><a href="cgt/crispr.html">CRISPR / Gene Editing</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p>© 2025 Global GMP Intelligence Platform. Open source — MIT License.</p>
+      <p>Not legal or regulatory advice. Always verify with official agency sources. <a href="https://github.com">GitHub ↗</a></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCRIPTS
+       ════════════════════════════════════════════════════ -->
+  <script src="script.js"></script>
+
+  <!--
+    Additional inline script for the guidelines filter buttons and full list builder.
+    This is kept here (not in script.js) because it needs access to guidelinesData
+    AFTER it has been loaded by loadAllData() in script.js.
+    In a larger project, this would move to script.js once data loading is async-refactored.
+  -->
+  <script>
+    /**
+     * Builds the complete guidelines list in the #guidelines-list section.
+     * Called after guidelinesData is populated by loadAllData().
+     */
+    function buildGuidelinesList(filter) {
+      const list = document.getElementById('guidelines-list');
+      if (!list) return;
+
+      // Wait a moment if data hasn't arrived yet
+      if (!guidelinesData || guidelinesData.length === 0) {
+        setTimeout(function () { buildGuidelinesList(filter); }, 300);
+        return;
+      }
+
+      // Filter the data
+      const items = filter && filter !== 'all'
+        ? guidelinesData.filter(function (g) { return g.category === filter; })
+        : guidelinesData;
+
+      list.innerHTML = '';
+
+      items.forEach(function (item) {
+        const card = document.createElement('div');
+        card.className = 'guideline-card';
+
+        const pdfBtn = item.pdf
+          ? `<a class="btn btn-primary" href="${item.pdf}" target="_blank">View PDF</a>
+             <a class="btn btn-secondary" href="${item.pdf}" download>Download PDF</a>`
+          : '';
+
+        const extBtn = item.external
+          ? `<a class="btn btn-secondary" href="${item.external}" target="_blank" rel="noopener">Official Website ↗</a>`
+          : '';
+
+        card.innerHTML = `
+          <div class="guideline-card-header">
+            <div class="guideline-meta">
+              <span class="tag tag-id">${item.id}</span>
+              <span class="tag tag-agency">${item.agency}</span>
+              <span class="tag tag-category">${item.category}</span>
+              <span class="tag tag-year">${item.year}</span>
+            </div>
+          </div>
+          <div class="guideline-title">${item.title}</div>
+          <div class="guideline-desc">${item.description}</div>
+          <div class="guideline-actions">
+            ${pdfBtn}
+            ${extBtn}
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    /**
+     * Filter button handler — called by onclick on the filter buttons.
+     */
+    function filterGuidelines(category) {
+      buildGuidelinesList(category);
+    }
+
+    // Build the list once data is ready
+    // We poll until guidelinesData is available
+    function waitAndBuild() {
+      if (typeof guidelinesData !== 'undefined' && guidelinesData.length > 0) {
+        buildGuidelinesList('all');
+      } else {
+        setTimeout(waitAndBuild, 200);
+      }
+    }
+    waitAndBuild();
+  </script>
+
+</body>
+</html>
