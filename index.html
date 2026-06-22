@@ -150,7 +150,7 @@
       -->
       <div class="countries-grid" id="countries-grid">
         <!-- Cards populated by JavaScript from data/countries.json -->
-        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading countries…</div>
+        <div class="placeholder-text">Loading countries…</div>
       </div>
     </div>
   </section>
@@ -158,7 +158,7 @@
   <!-- ═══════════════════════════════════════════════════════
        REGULATORY AGENCIES SECTION
        ════════════════════════════════════════════════════ -->
-  <section class="section" id="agencies" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+  <section class="section" id="agencies">
     <div class="section-inner">
       <div class="section-header">
         <div>
@@ -174,7 +174,7 @@
         To add agencies: edit data/agencies.json
       -->
       <div class="agencies-grid" id="agencies-grid">
-        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading agencies…</div>
+        <div class="placeholder-text">Loading agencies…</div>
       </div>
     </div>
   </section>
@@ -193,7 +193,7 @@
       <div class="section-divider"></div>
 
       <!-- CGT Product modalities -->
-      <h3 style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">
+      <h3 class="section-subheading">
         Therapy Modalities
       </h3>
 
@@ -202,11 +202,11 @@
         To add modalities: edit the CGT_PRODUCTS array in script.js
       -->
       <div class="cgt-grid" id="cgt-products-grid">
-        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading…</div>
+        <div class="placeholder-text">Loading…</div>
       </div>
 
       <!-- GMP Topics -->
-      <h3 style="font-size:13px;font-weight:600;color:var(--color-text-secondary);margin-bottom:16px;margin-top:40px;text-transform:uppercase;letter-spacing:0.08em;">
+      <h3 class="section-subheading mt-40">
         GMP Topic Areas
       </h3>
 
@@ -221,7 +221,7 @@
   <!-- ═══════════════════════════════════════════════════════
        FULL GUIDELINES SECTION
        ════════════════════════════════════════════════════ -->
-  <section class="section" id="search-section" style="background:var(--color-surface);border-top:1px solid var(--color-border);">
+  <section class="section section-surface" id="search-section">
     <div class="section-inner">
       <div class="section-header">
         <div>
@@ -249,6 +249,9 @@
             oninput="filterGuidelineSearch()"
           >
         </label>
+        <div class="guideline-controls">
+          <button id="guidelines-toggle" class="btn btn-amber" aria-expanded="false" onclick="toggleGuidelinesCollapsed()">Show more</button>
+        </div>
         <div class="guideline-dropdowns">
           <label class="filter-select-label" for="country-filter">
             Country
@@ -267,7 +270,7 @@
 
       <!-- Guidelines list — built by buildGuidelinesList() below -->
       <div class="guidelines-list" id="guidelines-list">
-        <div style="color:var(--color-text-muted);font-size:13px;padding:16px;">Loading guidelines…</div>
+        <div class="placeholder-text">Loading guidelines…</div>
       </div>
     </div>
   </section>
@@ -276,24 +279,24 @@
        ABOUT SECTION
        ════════════════════════════════════════════════════ -->
   <section class="section" id="about">
-    <div class="section-inner" style="max-width:760px;">
+    <div class="section-inner section-inner--narrow">
       <div class="section-label">About</div>
       <h2 class="section-title">Built for GMP Professionals</h2>
       <div class="section-divider"></div>
-      <p style="font-size:15px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:24px;">
+      <p class="about-paragraph">
         The Global GMP Intelligence Platform is an open, community-maintained reference library
         for Good Manufacturing Practice guidelines. It is designed specifically for GMP practitioners
         in cell and gene therapy, biologics, and pharmaceutical manufacturing — with a focus on
         ease of access, comparative navigation, and offline-ready deployment.
       </p>
-      <p style="font-size:15px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:24px;">
+      <p class="about-paragraph">
         Built in plain HTML, CSS and JavaScript — no frameworks, no database. Runs locally in
         VS Code Live Server or from any static web host. Add your own PDFs to the
-        <code style="font-family:var(--font-mono);color:var(--color-accent);font-size:13px;">pdfs/</code>
+        <code class="inline-code">pdfs/</code>
         folders and reference them in
-        <code style="font-family:var(--font-mono);color:var(--color-accent);font-size:13px;">data/guidelines.json</code>.
+        <code class="inline-code">data/guidelines.json</code>.
       </p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div class="btn-row">
         <a href="https://github.com" class="btn btn-primary" target="_blank">View on GitHub ↗</a>
         <a href="ask.html" class="btn btn-secondary">Ask GMP AI (coming soon)</a>
       </div>
@@ -383,6 +386,19 @@
       search: ''
     };
 
+    // Collapse state: when true show a maximum of 5 entries
+    let guidelinesCollapsed = true;
+
+    function toggleGuidelinesCollapsed() {
+      guidelinesCollapsed = !guidelinesCollapsed;
+      const btn = document.getElementById('guidelines-toggle');
+      if (btn) {
+        btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
+        btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
+      }
+      buildGuidelinesList(guidelineFilters.category);
+    }
+
     function getUniqueGuidelineValues(field) {
       return Array.from(new Set(guidelinesData.map(function (item) {
         return item[field];
@@ -448,11 +464,18 @@
       list.innerHTML = '';
 
       if (items.length === 0) {
-        list.innerHTML = '<div style="color:var(--color-text-muted);font-size:13px;padding:16px;">No guidelines match the selected filters.</div>';
+        list.innerHTML = '<div class="placeholder-text">No guidelines match the selected filters.</div>';
         return;
       }
 
-      items.forEach(function (item) {
+      // Show or hide the toggle button depending on number of items
+      const toggleBtn = document.getElementById('guidelines-toggle');
+      if (toggleBtn) toggleBtn.style.display = items.length > 5 ? 'inline-flex' : 'none';
+
+      // Respect collapsed state: show only first 5 when collapsed
+      const displayItems = (guidelinesCollapsed && items.length > 5) ? items.slice(0, 5) : items;
+
+      displayItems.forEach(function (item) {
         const card = document.createElement('div');
         card.className = 'guideline-card';
 
@@ -484,6 +507,14 @@
 
         list.appendChild(card);
       });
+
+      // If collapsed and not all items shown, add a small note
+      if (guidelinesCollapsed && items.length > displayItems.length) {
+        const note = document.createElement('div');
+        note.className = 'guideline-collapsed-note';
+        note.textContent = `Showing ${displayItems.length} of ${items.length} guidelines — click "${guidelinesCollapsed ? 'Show more' : 'Show fewer'}" to toggle.`;
+        list.appendChild(note);
+      }
     }
 
     /**
@@ -524,6 +555,13 @@
       if (typeof guidelinesData !== 'undefined' && guidelinesData.length > 0) {
         populateGuidelineDropdowns();
         buildGuidelinesList('all');
+
+        // Ensure the toggle button reflects the default collapsed state on first load
+        const btn = document.getElementById('guidelines-toggle');
+        if (btn) {
+          btn.textContent = guidelinesCollapsed ? 'Show more' : 'Show fewer';
+          btn.setAttribute('aria-expanded', guidelinesCollapsed ? 'false' : 'true');
+        }
       } else {
         setTimeout(waitAndBuild, 200);
       }
