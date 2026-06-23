@@ -111,7 +111,7 @@ async function loadAllData() {
 // ── SECTION 4: SEARCH ─────────────────────────────────────────
 
 /**
- * Searches guidelines by: title, country, agency, category, keywords
+ * Searches guidelines by: id, title, country, agency, category, keywords
  * @param {string} query - The search term from the user
  * @returns {Array} - Matching guideline objects
  */
@@ -123,6 +123,7 @@ function searchGuidelines(query) {
   return guidelinesData.filter(function (item) {
     // Build a single searchable string per item
     const searchable = [
+      item.id,
       item.title,
       item.country,
       item.agency,
