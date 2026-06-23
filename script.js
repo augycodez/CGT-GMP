@@ -448,7 +448,7 @@ function buildCGTCards() {
 }
 
 /**
- * Updates the hero statistic numbers on the homepage using loaded JSON data.
+ * Updates the hero statistic numbers from the loaded CGT Guidelines library.
  */
 function updateHeroStats() {
   const elCountries = document.getElementById('hero-countries-count');
@@ -456,9 +456,15 @@ function updateHeroStats() {
   const elGuidelines = document.getElementById('hero-guidelines-count');
   const elModalities = document.getElementById('hero-modalities-count');
 
-  if (elCountries) elCountries.textContent = (countriesData && countriesData.length) ? countriesData.length + '+' : '0';
-  if (elAgencies) elAgencies.textContent = (agenciesData && agenciesData.length) ? agenciesData.length + '+' : '0';
-  if (elGuidelines) elGuidelines.textContent = (guidelinesData && guidelinesData.length) ? guidelinesData.length + '+' : '0';
+  const guidelines = Array.isArray(guidelinesData) ? guidelinesData : [];
+  const countries = getUniqueGuidelineValues('country');
+  const agencies = getUniqueGuidelineValues('agency');
+  const countryCount = countries.length || (Array.isArray(countriesData) ? countriesData.length : 0);
+  const agencyCount = agencies.length || (Array.isArray(agenciesData) ? agenciesData.length : 0);
+
+  if (elCountries) elCountries.textContent = countryCount ? countryCount + '+' : '0';
+  if (elAgencies) elAgencies.textContent = agencyCount ? agencyCount + '+' : '0';
+  if (elGuidelines) elGuidelines.textContent = guidelines.length ? guidelines.length + '+' : '0';
   if (elModalities) elModalities.textContent = (Array.isArray(CGT_PRODUCTS) ? CGT_PRODUCTS.length : 0);
 }
 
